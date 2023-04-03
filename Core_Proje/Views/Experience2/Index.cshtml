@@ -1,0 +1,142 @@
+﻿@model List<Experience>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_NewAdminLayout.cshtml";
+}
+
+<div class="col-md-6">
+    <div class="p-2">
+        <button type="button" id="btngetlistall" class="btn btn-primary">Verileri Getir</button>
+    </div>
+</div>
+
+<div class="p-2" id="listexperience">
+
+</div>
+
+<br />
+
+<div class="p-2" id="listIdexperience">
+
+</div>
+
+<br />
+
+
+<div class="col-md-12">
+    <h5>ID ile Deneyim Silme</h5>
+    <input type="text" class="form-control" id="inpexpid" placeholder="ID Giriniz" />
+    <br />
+    <button type="button" id="btndelete" class="btn btn-danger">Sil</button>
+</div>
+<br />
+
+<div class="col-md-12">
+    <h4>ID'ye göre deneyim getirme</h4>
+    <input type="text" class="form-control" id="inpid" placeholder="ID giriniz." />
+    <br />
+    <button type="button" id="btnid" class="btn btn-info">ID ile getir</button>
+</div>
+<br />
+
+<div class="col-md-12">
+    <h4>Deneyim ekleme paneli</h4>
+    <input type="text" class="form-control" id="inpname" placeholder="Başlık" />
+    <br />
+    <input type="text" class="form-control" id="inpdate" placeholder="Tarih" />
+    <br />
+    <input type="text" class="form-control" id="inpdesc" placeholder="Açıklama" />
+    <br />
+    <button type="button" id="btnadd" class="btn btn-success">Kaydet</button>
+</div>
+
+<br />
+
+
+@section Scripts{
+    <script>
+        //deneyimleri ajax ile butona tıklayınca cekme
+        $("#btngetlistall").click(function () {
+            $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: "Get",
+                url: "/Experience2/ListExperience/",
+
+                success: function (func) {
+                    let values = jQuery.parseJSON(func);
+                    console.log(values);
+
+                    let htmlst = "<h5> Bütün deneyimler </h5> <table class=table table-bordered> <tr> <th> ID </th> <th> Başlık </th> <th> Tarih </th> <th> Açıklama </th> </tr>";
+                    $.each(values, (index, value) => {
+                        htmlst += `
+                                <tr> <td>${value.ExperienceID} </td> <td> ${value.Name} </td> <td> ${value.Date} </td> <td>${value.Description}</td> </tr>`
+                    });
+                    htmlst += "</table>";
+                    $("#listexperience").html(htmlst);
+
+
+                }
+            });
+        });
+
+        //ajax ile yeni deneyim ekleme
+        $("#btnadd").click(function () {
+            let values = {
+                Name: $("#inpname").val(),
+                Date: $("#inpdate").val(),
+                Description: $("#inpdesc").val()
+            };
+
+            $.ajax({
+                type: "Post",
+                url: "/Experience2/AddExperience/",
+                data: values,
+                success: function (func2) {
+                    let result = jQuery.parseJSON(func2);
+                    alert("Yeni deneyim başarılı bir şekilde eklendi");
+                }
+            });
+        });
+
+        //ajax ile id'ye göre deneyim getirme
+        $("#btnid").click(x => {
+            let id = $("#inpid").val();
+
+            $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: "Get",
+                url: "/Experience2/GetById/",
+                data: { ExprerienceID: id },
+                success: function (func3) {
+                    let result = jQuery.parseJSON(func3);
+                    console.log(result);
+                    let htmlst2 = `<h5>ID ile deneyim getirme </h5>
+                            <table class=table table-hover> <th>Deneyim ID</th> <td>${result.ExperienceID}</td></tr>
+                            <tr> <th> Deneyim Başlıgı </th> <td>${result.Name}</td></tr>
+                            <tr> <th> Açıklama </th> <td>${result.Description}</td></tr>
+                            <tr> <th> Tarih </th> <td>${result.Date}</td></tr> </table>`;
+                    $("#listIdexperience").html(htmlst2);
+                }
+            });
+        });
+
+        //ajax ile id yakalayarak deneyim silme.
+        $("#btndelete").click(x => {
+            let id = $("#inpexpid").val();
+            $.ajax({
+                url: "/Experience2/DeleteExperience/" + id,
+                type: "post",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (func4) {
+                    loadData();
+                    alert("deneyim başarılı bir şekilde silindi");
+                }
+            });
+        });
+
+    </script>
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>

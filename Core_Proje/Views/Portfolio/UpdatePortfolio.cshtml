@@ -1,0 +1,50 @@
+﻿@model Portfolio
+@{
+    ViewData["Title"] = "UpdatePortfolio";
+    Layout = "~/Views/Shared/_NewAdminLayout.cshtml";
+}
+
+<div class="card-header border-0">
+    <h3 class="mb-0">Proje Güncelleme</h3>
+</div>
+@using (Html.BeginForm("UpdatePortfolio", "Portfolio", FormMethod.Post))
+{
+    //Html tag halperlar ile form oluşturuldu
+    <br />
+    @Html.HiddenFor(x => x.PortfolioID)
+    @Html.Label("Proje Başlığı")
+    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.Name)
+    <br />
+    <label>Proje Görseli 1</label>
+    @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.ImageUrl)
+
+    <br />
+    <label>Proje Görseli 2</label>
+    @Html.TextBoxFor(x => x.ImageUrl2, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.ImageUrl2)
+    <br />
+    <label>Platform</label>
+    @Html.TextBoxFor(x => x.ProjectUrl, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.ProjectUrl)
+
+    <br />
+    <label>Platform</label>
+    @Html.TextBoxFor(x => x.Platform, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.Platform)
+
+    <br />
+    <label>Proje fiyat</label>
+    @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.Price)
+
+    <br />
+    <label>Bitirme oranı</label>
+    @Html.TextAreaFor(x => x.Value, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.Value)
+
+    <br />
+    <button class="btn btn-primary">Kaydet</button>
+
+}

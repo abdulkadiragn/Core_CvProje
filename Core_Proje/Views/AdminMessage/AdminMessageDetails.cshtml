@@ -1,0 +1,45 @@
+﻿@model WriterMessage
+@{
+    ViewData["Title"] = "AdminMessageDetails";
+    Layout = "~/Views/Shared/_NewAdminLayout.cshtml";
+}
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <p class="card-description"> Mesaj Detayı </p>
+            <form class="forms-sample">
+                <div class="form-group">
+                    <label>ID</label>
+                    @Html.TextBoxFor(x => x.WriterMessageID, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Başlık</label>
+                    @Html.TextBoxFor(x => x.Subject, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Gönderen</label>
+                    @Html.TextBoxFor(x => x.SenderName, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Alıcı</label>
+                    @Html.TextBoxFor(x => x.ReceiverName, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Tarih</label>
+                    @Html.TextBoxFor(x => x.Date, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Mail adresi</label>
+                    @Html.TextBoxFor(x => x.Date, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label>Mesaj içeriği</label>
+                    @Html.TextAreaFor(x => x.MessageContent, 6, 2, new { @class = "form-control" })
+                </div>
+                <a asp-action="ReceiverMessageList" class="btn btn-primary mr-2">Gelen kutusuna dön</a>
+                <a asp-action="SenderMessageList" class="btn btn-warning mr-2">Gönderilen kutusuna dön</a>
+            </form>
+        </div>
+    </div>
+</div>
